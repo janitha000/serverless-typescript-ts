@@ -1,0 +1,50 @@
+---
+swagger: "2.0"
+info:
+  version: "2022-04-27T08:07:04Z"
+  title: "serverless-step-dev"
+host: "t4zezgch20.execute-api.ap-southeast-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /hello:
+    get:
+      summary: "Create something"
+      description: "Creates the thing you need"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "serverApiGaPj8sAxX6fE3t"
+        required: true
+        schema:
+          $ref: "#/definitions/serverApiGaPj8sAxX6fE3t"
+      responses:
+        "200":
+          description: "200 response"
+    post:
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "serverApiGaOkHNizzG16lI"
+        required: true
+        schema:
+          $ref: "#/definitions/serverApiGaOkHNizzG16lI"
+      responses: {}
+definitions:
+  serverApiGaPj8sAxX6fE3t:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+  serverApiGaOkHNizzG16lI:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
