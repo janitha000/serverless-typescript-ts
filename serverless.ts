@@ -1,11 +1,12 @@
 import type { AWS } from '@serverless/typescript';
 import { machine } from './src/step-functions/machine'
-import hello from '@functions/hello';
+// import hello from '@functions/hello';
+import { functions } from './src/functions';
 
 const serverlessConfiguration: AWS = {
   service: 'serverless-step',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', 'serverless-step-functions', 'serverless-offline', 'serverless-aws-documentation'],
+  plugins: ['serverless-esbuild', 'serverless-step-functions', 'serverless-offline', 'serverless-aws-documentation', 'serverless-localstack'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -17,11 +18,12 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      ONUSERUPDATE_EVENTBUS: 'arn:aws:events:ap-southeast-1:628640267234:event-bus/aws.partner/mongodb.com/stitch.trigger/626b8954f1cb6a1f43679ac5'
     },
   },
   // import the function via paths
-  functions: { hello },
-  package: { individually: true, patterns: [''] },
+  functions,
+  package: { individually: true },
   custom: {
     esbuild: {
       bundle: true,
@@ -39,6 +41,18 @@ const serverlessConfiguration: AWS = {
         title: "Name of your API",
         description: "This is the best API ever"
       }
+    },
+    localstack: {
+      stages: ['local'],
+      lambda: {
+        mountCode: "True"
+      },
+      docker: {
+        sudo: "False"
+      }
+
+
+
     }
   },
   // @ts-ignore
