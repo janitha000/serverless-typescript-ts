@@ -1,0 +1,1 @@
+{"version":3,"file":"machine-definition.js","sourceRoot":"","sources":["../../../src/step-functions/machine-definition.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,GAAG,EAAE,MAAM,WAAW,CAAA;AAE/B,MAAM,CAAC,MAAM,YAAY,GAAG;IACxB,MAAM,EAAE,0BAA0B;IAClC,YAAY,EAAE,GAAG;IACjB,UAAU,EAAE,MAAM;CAErB,CAAA"}

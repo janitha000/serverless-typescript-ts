@@ -6,6 +6,7 @@ import { functions } from './src/functions';
 const serverlessConfiguration: AWS = {
   service: 'serverless-step',
   frameworkVersion: '3',
+  useDotenv: true,
   plugins: ['serverless-esbuild', 'serverless-step-functions', 'serverless-offline', 'serverless-aws-documentation', 'serverless-localstack'],
   provider: {
     name: 'aws',
@@ -18,7 +19,10 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      ONUSERUPDATE_EVENTBUS: 'arn:aws:events:ap-southeast-1:628640267234:event-bus/aws.partner/mongodb.com/stitch.trigger/626b8954f1cb6a1f43679ac5'
+      ONUSERUPDATE_EVENTBUS: 'arn:aws:events:ap-southeast-1:628640267234:event-bus/aws.partner/mongodb.com/stitch.trigger/626b8954f1cb6a1f43679ac5',
+      NODE_PATH: "./:/opt/node_modules:/opt/nodejs",
+      MONGODB_URL: '${env:MONGODB_URL}'
+
     },
   },
   // import the function via paths
