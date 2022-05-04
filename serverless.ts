@@ -20,7 +20,7 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       ONUSERUPDATE_EVENTBUS: 'arn:aws:events:ap-southeast-1:628640267234:event-bus/aws.partner/mongodb.com/stitch.trigger/626b8954f1cb6a1f43679ac5',
-      NODE_PATH: "./:/opt/node_modules:/opt/nodejs",
+      NODE_PATH: "./:/opt/node_modules:/opt/nodejs/node_modules",
       MONGODB_URL: '${env:MONGODB_URL}'
 
     },
@@ -33,7 +33,7 @@ const serverlessConfiguration: AWS = {
       bundle: true,
       minify: false,
       sourcemap: true,
-      exclude: ['aws-sdk'],
+      exclude: ['aws-sdk', "database"],
       target: 'node14',
       define: { 'require.resolve': undefined },
       platform: 'node',

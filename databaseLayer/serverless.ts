@@ -34,8 +34,9 @@ const serverlessConfiguration: AWS = {
   },
   layers: {
     database: {
-      path: 'database'
-    }
+      path: 'database',
+      compatibleRuntimes: ["nodejs14.x"]
+    },
   },
   resources: {
     Outputs: {
