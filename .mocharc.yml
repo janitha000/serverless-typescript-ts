@@ -1,0 +1,9 @@
+require:
+    - ts-node/register
+    - source-map-support/register
+recursive: true
+full-trace: true
+timeout: 10000
+exit: true
+spec:
+    - test/**/*.spec.ts

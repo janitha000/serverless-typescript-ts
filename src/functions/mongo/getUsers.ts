@@ -1,10 +1,10 @@
 
-import { formatJSONResponse } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
+// import { middyfy } from '@libs/lambda';
 import { APIGatewayEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 // import { DbCon, UserModel } from '/opt/nodejs/database'
 import { Logger } from '../../common/logger'
 import { DbCon, UserModel } from 'database'
+import { apiResponse } from '../../common/api-response'
 
 let uri = process.env.MONGODB_URL;
 
@@ -38,14 +38,14 @@ export const main = async (_event: APIGatewayEvent, context: Context): Promise<A
         await DbCon(uri);
         const users = await UserModel.find().lean();
         logger.INFO({ data: users })
-        return formatJSONResponse({ users });
+        return apiResponse._200({ users });
     }
     catch (err) {
         logger.Error({
             message: err.message,
             callstack: err.stack,
         });
-        return formatJSONResponse({ err });
+        return apiResponse._500({ err });
 
     }
 

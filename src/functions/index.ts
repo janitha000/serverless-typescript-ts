@@ -1,6 +1,20 @@
 import { AWS } from '@serverless/typescript';
 import schema from './hello/schema';
 
+//@ts-ignore
+const corsSettings = {
+    headers: [
+        // Specify allowed headers
+        'Content-Type',
+        'X-Amz-Date',
+        'Authorization',
+        'X-Api-Key',
+        'X-Amz-Security-Token',
+        'X-Amz-User-Agent',
+    ],
+    allowCredentials: false,
+};
+
 export const functions: AWS["functions"] = {
     hello: {
         handler: `src/functions/hello/handler.main`,
@@ -97,6 +111,19 @@ export const functions: AWS["functions"] = {
                 },
             },
         ],
+    },
+    getAuroraUsers: {
+        handler: `src/functions/aurora/index.getAuroraUsers`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'aurora/users',
+                },
+            },
+        ],
+        role: { 'Fn::GetAtt': ['AuroraRole', 'Arn'] }
+
     }
 
 }
