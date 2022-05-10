@@ -13,7 +13,7 @@ phases:
     commands:
       - echo deployment started `date`
       - echo deploy serverless framework custom codebase
-      - cd ${SERVICE_PATH} && npm run deploy ${STAGE}
+      - cd ${SERVICE_PATH} && npm run deploy:ci ${STAGE}
   post_build:
     commands:
       - echo post build completed on `date`
