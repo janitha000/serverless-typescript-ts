@@ -5,9 +5,10 @@
   "main": "serverless.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "serverless deploy --verbose",
-    "deploy:ci": "serverless deploy --verbose --stage ",
-    "compile": "tsc"
+    "deploy": "npm run compile && serverless deploy --verbose",
+    "deploy:ci": "npm run compile && serverless deploy --verbose --stage ",
+    "compile": "tsc --project database/nodejs/database/tsconfig.json",
+    "install": "npm --prefix database/nodejs/database install"
   },
   "engines": {
     "node": ">=14.15.0"
