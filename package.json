@@ -8,6 +8,7 @@
     "test-jest": "jest --config=jest.config.js",
     "deploy": "serverless deploy --verbose",
     "deploy:local": "serverless deploy --stage local --verbose",
+    "deploy:ci": "serverless deploy --verbose --stage ",
     "start": "serverless offline start",
     "deploy:func": "serverless deploy function --stage dev --verbose --function",
     "logs": "serverless logs --function",
