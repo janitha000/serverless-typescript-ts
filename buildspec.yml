@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo install serverless framework
+      - npm install -g serverless
+  pre_build:
+    commands:
+      - echo install pre build commands
+      - cd ${SERVICE_PATH} && npm install && cd -
+  build:
+    commands:
+      - echo deployment started `date`
+      - echo deploy serverless framework custom codebase
+      - cd ${SERVICE_PATH} && npm run deploy --stage ${STAGE}
+  post_build:
+    commands:
+      - echo post build completed on `date`
+
+cache:
+  paths:
+    - node_modules
+    - ${SERVICE_PATH}/node_modules
