@@ -111,6 +111,9 @@ export const functions: AWS["functions"] = {
                 },
             },
         ],
+        tracing: 'Active',
+        //@ts-ignore
+        lambdaInsights: true
     },
     getAuroraUsers: {
         handler: `src/functions/aurora/index.getAuroraUsers`,

@@ -4,7 +4,7 @@ exports.dbConnection = void 0;
 const mongoose_1 = require("mongoose");
 let conn = null;
 const connectToDatabase = async (uri) => {
-    if (conn === null && conn.ser) {
+    if (conn === null) {
         console.log('Connecting to the database...');
         conn = (0, mongoose_1.connect)(uri, {
             serverSelectionTimeoutMS: 5000

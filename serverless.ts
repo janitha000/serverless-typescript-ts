@@ -8,7 +8,7 @@ const serverlessConfiguration: AWS = {
   service: 'serverless-step',
   frameworkVersion: '3',
   useDotenv: true,
-  plugins: ['serverless-esbuild', 'serverless-step-functions', 'serverless-offline', 'serverless-aws-documentation', 'serverless-localstack'],
+  plugins: ['serverless-esbuild', 'serverless-step-functions', 'serverless-offline', 'serverless-aws-documentation', 'serverless-localstack', 'serverless-plugin-lambda-insights'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
