@@ -4,6 +4,7 @@ import { main } from "../src/functions/hello/handler";
 describe('Unit test for app handler', function () {
     it('verifies successful response', async () => {
         const event: APIGatewayProxyEvent = {
+            httpMethod: 'GET',
             queryStringParameters: {
                 a: "1"
             }

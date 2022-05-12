@@ -36,7 +36,7 @@ const serverlessConfiguration: AWS = {
       minify: false,
       sourcemap: true,
       // exclude: ['aws-sdk', "database"],
-      exclude: ['aws-sdk', "database"],
+      exclude: ["database"],
       target: 'node14',
       define: { 'require.resolve': undefined },
       platform: 'node',

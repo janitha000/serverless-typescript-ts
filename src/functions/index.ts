@@ -11,6 +11,7 @@ const corsSettings = {
         'X-Api-Key',
         'X-Amz-Security-Token',
         'X-Amz-User-Agent',
+        'Access-Control-Request-Method'
     ],
     allowCredentials: false,
 };
@@ -67,6 +68,18 @@ export const functions: AWS["functions"] = {
                 },
             },
         ],
+    },
+    startStepFunction: {
+        handler: `src/functions/step/startStepFunction.main`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'stepFunction/start',
+                },
+            },
+        ],
+        tracing: 'Active'
     },
     onUserInsert: {
         handler: `src/functions/mongo/handler.onUserInsert`,
@@ -126,6 +139,31 @@ export const functions: AWS["functions"] = {
             },
         ],
         role: { 'Fn::GetAtt': ['AuroraRole', 'Arn'] }
+
+    },
+    sentry: {
+        handler: `src/functions/sentry/index.main`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'sentry',
+                },
+            },
+        ],
+    },
+    users: {
+        handler: `src/functions/service-pattern/users.main`,
+        events: [
+            {
+                http: {
+                    method: '*',
+                    path: 'service-users',
+                    cors: corsSettings
+                },
+
+            },
+        ],
 
     }
 

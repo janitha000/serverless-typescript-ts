@@ -11,7 +11,7 @@ export class Logger {
 
     Error = (payload: LogPayload) => {
         payload = { app_name, app_stage, service_name, context_id: this._contextId, type: 'CRITICAL', ...payload };
-        console.log(JSON.stringify(payload));
+        console.error(JSON.stringify(payload));
     }
 
     INFO = (payload: LogPayload) => {
