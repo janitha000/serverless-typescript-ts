@@ -30,6 +30,7 @@ const serverlessConfiguration: AWS = {
       minify: false,
       sourcemap: true,
       exclude: ['aws-sdk'],
+      include: 'node_modules/**',
       target: 'node14',
       define: { 'require.resolve': undefined },
       platform: 'node',
@@ -41,6 +42,10 @@ const serverlessConfiguration: AWS = {
       path: 'database',
       compatibleRuntimes: ["nodejs14.x"]
     },
+    "awsSdk": {
+      path: 'awsSdk',
+      compatibleRuntimes: ["nodejs14.x"]
+    }
   },
   resources: {
     Outputs: {
@@ -50,6 +55,14 @@ const serverlessConfiguration: AWS = {
         },
         Export: {
           "Name": "DatabaseLambdaLayer"
+        }
+      },
+      awsSdkLayer: {
+        Value: {
+          "Ref": "AwsSdkLambdaLayer"
+        },
+        Export: {
+          "Name": "AwsSdkLambdaLayer"
         }
       }
     }

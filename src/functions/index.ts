@@ -71,6 +71,9 @@ export const functions: AWS["functions"] = {
     },
     startStepFunction: {
         handler: `src/functions/step/startStepFunction.main`,
+        layers: [
+            "${cf:databaselayer-${self:provider.stage}.awsSdkLayer}"
+        ],
         events: [
             {
                 http: {
@@ -111,22 +114,51 @@ export const functions: AWS["functions"] = {
             },
         ],
     },
-    getAllUsers: {
-        handler: `src/functions/mongo/getUsers.main`,
+    mongoUsers: {
+        handler: `src/functions/mongo/users/handler.main`,
         layers: [
-            "${cf:databaselayer-${self:provider.stage}.databaseLayer}"
+            "${cf:databaselayer-${self:provider.stage}.databaseLayer}",
         ],
         events: [
             {
                 http: {
-                    method: 'get',
+                    method: 'ANY',
                     path: 'users',
                 },
             },
         ],
         tracing: 'Active',
         //@ts-ignore
-        lambdaInsights: true
+        lambdaInsights: true,
+
+    },
+    getUsersByFilter: {
+        handler: `src/functions/mongo/getUsersFilter.main`,
+        layers: [
+            "${cf:databaselayer-${self:provider.stage}.databaseLayer}",
+        ],
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'user/filter',
+                },
+            },
+        ],
+    },
+    getUserById: {
+        handler: `src/functions/mongo/getUserById.main`,
+        layers: [
+            "${cf:databaselayer-${self:provider.stage}.databaseLayer}",
+        ],
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'users/{id}',
+                },
+            },
+        ]
     },
     getAuroraUsers: {
         handler: `src/functions/aurora/index.getAuroraUsers`,
@@ -157,7 +189,7 @@ export const functions: AWS["functions"] = {
         events: [
             {
                 http: {
-                    method: '*',
+                    method: 'ANY',
                     path: 'service-users',
                     cors: corsSettings
                 },
