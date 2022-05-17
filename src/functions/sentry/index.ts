@@ -4,9 +4,8 @@ import { Logger } from "src/common/logger";
 import { SentryWrapper, setTransaction } from "src/common/sentry";
 
 const sentryTest = async (_event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> => {
-    context.callbackWaitsForEmptyEventLoop = false;
     const logger = new Logger(context.awsRequestId);
-    const transaction = setTransaction()
+    //const transaction = setTransaction()
 
     try {
         logger.INFO({ message: "Getting users from the database" })
@@ -22,10 +21,11 @@ const sentryTest = async (_event: APIGatewayEvent, context: Context): Promise<AP
 
     }
     finally {
-        transaction.finish();
+        //transaction.finish();
     }
 
     //return formatJSONResponse({});
 };
+export const main = sentryTest;
 
-export const main = SentryWrapper.AWSLambda.wrapHandler(sentryTest)
+// export const main = SentryWrapper.AWSLambda.wrapHandler(sentryTest)

@@ -3,16 +3,27 @@ import { machine } from './src/step-functions/machine'
 // import hello from '@functions/hello';
 import { functions } from './src/functions';
 import { IAMRoles } from 'aws/IAM-aurora'
+import { LayerDeploymentBucketCF } from 'aws/layers-deployment-bucket'
 
 const serverlessConfiguration: AWS = {
   service: 'serverless-step',
   frameworkVersion: '3',
   useDotenv: true,
-  plugins: ['serverless-esbuild', 'serverless-step-functions', 'serverless-offline', 'serverless-aws-documentation', 'serverless-localstack', 'serverless-plugin-lambda-insights'],
+
+  plugins: [
+    'serverless-esbuild',
+    'serverless-step-functions',
+    'serverless-offline',
+    'serverless-aws-documentation',
+    'serverless-localstack',
+    'serverless-plugin-lambda-insights',
+    // 'serverless-layers'
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
     region: 'ap-southeast-1',
+
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -31,6 +42,13 @@ const serverlessConfiguration: AWS = {
   functions,
   package: { individually: true },
   custom: {
+    "serverless-layers": {
+      functions: [
+        'getUserById'
+      ],
+      dependenciesPath: './package.json',
+      layersDeploymentBucket: { 'Fn::GetAtt': ['LayerDeploymentBucket', 'Arn'] }
+    },
     esbuild: {
       bundle: true,
       minify: false,
@@ -57,9 +75,6 @@ const serverlessConfiguration: AWS = {
       docker: {
         sudo: "False"
       }
-
-
-
     }
   },
   // @ts-ignore
@@ -71,7 +86,8 @@ const serverlessConfiguration: AWS = {
   },
   resources: {
     Resources: {
-      ...IAMRoles
+      ...IAMRoles,
+      ...LayerDeploymentBucketCF
     }
   }
 }

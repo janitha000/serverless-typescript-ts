@@ -16,6 +16,14 @@ const corsSettings = {
     allowCredentials: false,
 };
 
+const vpc = {
+    securityGroupIds: ["sg-0f439c946788b4547"],
+    subnetIds: [
+        "subnet-07b69ae17e24dc252",
+        "subnet-0150728ce4d1dc5af",
+    ]
+}
+
 export const functions: AWS["functions"] = {
     hello: {
         handler: `src/functions/hello/handler.main`,
@@ -130,6 +138,7 @@ export const functions: AWS["functions"] = {
         tracing: 'Active',
         //@ts-ignore
         lambdaInsights: true,
+        vpc: vpc
 
     },
     getUsersByFilter: {
@@ -160,6 +169,20 @@ export const functions: AWS["functions"] = {
             },
         ]
     },
+    departments: {
+        handler: `src/functions/mongo/departments/handler.main`,
+        layers: [
+            "${cf:databaselayer-${self:provider.stage}.databaseLayer}",
+        ],
+        events: [
+            {
+                http: {
+                    method: 'ANY',
+                    path: 'departments',
+                },
+            },
+        ]
+    },
     getAuroraUsers: {
         handler: `src/functions/aurora/index.getAuroraUsers`,
         events: [
@@ -183,6 +206,8 @@ export const functions: AWS["functions"] = {
                 },
             },
         ],
+        tracing: 'Active',
+        vpc: vpc
     },
     users: {
         handler: `src/functions/service-pattern/users.main`,
@@ -197,7 +222,34 @@ export const functions: AWS["functions"] = {
             },
         ],
 
-    }
+    },
+    countries: {
+        handler: `src/functions/postgres/handler.main`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'countries',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    addCoutries: {
+        handler: `src/functions/postgres/handler.post`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'postcountry',
+                },
+
+            },
+        ],
+
+    },
 
 }
 

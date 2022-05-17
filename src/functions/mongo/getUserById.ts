@@ -16,7 +16,7 @@ export const getUserById = async (event: APIGatewayEvent, context: Context): Pro
         logger.INFO({ message: "Getting users from the database " + userId })
         const dbtransaction = setTransaction('mongo', 'mongo-transaction');
         await DbCon(uri);
-        const user = await UserModel.findById(userId);
+        const user = await UserModel.findById(userId).populate('department');
         dbtransaction.finish();
 
         logger.INFO({ message: user.getFullName() })

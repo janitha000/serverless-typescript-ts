@@ -34,7 +34,12 @@ export const IAMRoles: AWS['resources']['Resources'] = {
                                     "rds-data:RollbackTransaction",
                                     "secretsmanager:CreateSecret",
                                     "secretsmanager:ListSecrets",
-                                    "secretsmanager:GetRandomPassword"
+                                    "secretsmanager:GetRandomPassword",
+                                    "ec2:DescribeNetworkInterfaces",
+                                    "ec2:CreateNetworkInterface",
+                                    "ec2:DeleteNetworkInterface",
+                                    "ec2:DescribeInstances",
+                                    "ec2:AttachNetworkInterface"
                                 ],
                                 "Resource": "*"
                             }

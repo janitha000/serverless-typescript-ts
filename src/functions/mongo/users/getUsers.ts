@@ -1,4 +1,4 @@
-import { DbCon, UserModel } from "database"
+import { DbCon, UserModel, DepartmentModel } from "database"
 import { apiResponse } from "src/common/api-response";
 import { Logger } from "src/common/logger";
 import { SentryWrapper } from "src/common/sentry";
