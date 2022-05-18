@@ -250,6 +250,205 @@ export const functions: AWS["functions"] = {
         ],
 
     },
+    countriesById: {
+        handler: `src/functions/postgres/handler.getById`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'countries/{id}',
+                },
 
+            },
+        ],
+        vpc: vpc
+
+    },
+    countriesByName: {
+        handler: `src/functions/postgres/handler.getByName`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'countries/country/name',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    countriesByNameDelete: {
+        handler: `src/functions/postgres/handler.deleteByName`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'countries/country/delete',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    cityCodes: {
+        handler: `src/functions/postgres/handler.getCityCodes`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'cityCodes',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    postCityCodes: {
+        handler: `src/functions/postgres/handler.postCityCode`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'cityCodes/insert',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    addUsers: {
+        handler: `src/functions/postgres/handler.addUser`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'psUsers/insert',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    getUsers: {
+        handler: `src/functions/postgres/handler.getUsers`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'psUsers',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    addCityT: {
+        handler: `src/functions/postgres/handlerT.postT`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'Tcities/insert',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    getCitiesT: {
+        handler: `src/functions/postgres/handlerT.getCities`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'Tcities',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    getCountriesT: {
+        handler: `src/functions/postgres/handlerT.getCountries`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'Tcountries',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    postCountryT: {
+        handler: `src/functions/postgres/handlerT.postCountryT`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'Tcountries/insert',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    AddCityAndPeopleT: {
+        handler: `src/functions/postgres/handlerT.AddCityAndPeople`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'citypeople',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+    getCityAndPeopleT: {
+        handler: `src/functions/postgres/handlerT.getCityAndPeople`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'citypeople/get',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
+
+
+
+
+    departmentsM: {
+        handler: `src/functions/postgres/handler-model.getDepartments`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'departments',
+                },
+
+            },
+        ],
+        vpc: vpc
+
+    },
 }
 

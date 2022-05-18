@@ -1,49 +1,45 @@
-import { DataTypes, Model, Sequelize } from "sequelize/types";
+import { DataTypes, Model } from 'sequelize'
+import { loadSequelizePromise, connection, loadSequelize } from './postgresDb'
 
-export const CityModel = (sequelize, Sequelize) => {
+
+export const CityModel = async (sequelize) => {
     const City: Model = sequelize.define('City', {
-        // Model attributes are defined here
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true
+        },
         name: {
-            type: Sequelize.DataTypes.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         country: {
-            type: Sequelize.DataTypes.STRING
-            // allowNull defaults to true
+            type: DataTypes.STRING
         },
         continent: {
-            type: Sequelize.DataTypes.STRING
-            // allowNull defaults to true
+            type: DataTypes.STRING,
+            get() {
+                const value = this.getDataValue('continent');
+                return value ? value.toUpperCase() : null;
+            }
+        },
+        code: {
+            type: DataTypes.STRING,
+            set(value: string) {
+                this.setDataValue('code', value.toUpperCase())
+            }
         },
     }, {
-        // Other model options go here
+        paranoid: true
     });
+
+    City.hasOne()
+
     return City;
 }
 
 
-// export const CityClass = (sequelize: Sequelize) => {
-//     class City extends Model {
-//         public id?: number
-//         public name!: string
-//         public country!: string
-//         public continent!: string
-//     }
 
-//     City.init(
-//         {
-//             name: {
-//                 type: DataTypes.STRING,
-//                 allowNull: false,
-//             },
-//         },
-//         {
-//             sequelize,
-//             tableName: 'user',
-//         }
-//     )
-//     return City;
-// }
 
 
 

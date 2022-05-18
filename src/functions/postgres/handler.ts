@@ -1,8 +1,13 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
+import { DataTypes } from 'sequelize'
 import { Sequelize } from "sequelize/types";
 import { apiResponse } from "src/common/api-response";
-import { CityModel, CityClass } from "./city.model";
-import { loadSequelize } from "./postgresDb";
+import { CityModel } from "./city.model";
+import CityClass from './city.class'
+import CityCode from "./cityCode.model";
+import { closeConnection, loadSequelize, loadSequelizePromise } from "./postgresDb";
+const User = require('../../../lib/database/models/user')
+import db from './postgresDb-index';
 
 // import * as User from '../../../lib/database/models/user';
 
@@ -11,14 +16,16 @@ export const main = async (_event: APIGatewayProxyEvent) => {
     console.log('getting postgres users');
     let seq = null;
     try {
-        seq = await loadSequelize();
-        let cities = await seq.model('City').findAll();
+        // seq = loadSequelize();
+        // CityModel(seq);
+        // (await loadSequelizePromise()).sync({ alter: { drop: false } })
+        let cities = await CityClass.findAll({});
         return apiResponse._200({ cities })
 
     }
     finally {
         console.log('closing connection')
-        await seq.connectionManager.close();
+        await closeConnection();
     }
 }
 
@@ -27,7 +34,9 @@ export const post = async (_event: APIGatewayProxyEvent) => {
     let seq: Sequelize = null;
     try {
         seq = await loadSequelize();
-        await seq.model('City').create({ name: 'Colombo', country: 'Sri Lanka', continent: 'Asia' });
+        CityModel(seq);
+
+        await seq.model('City').create({ name: 'Kegalle', country: 'Sri Lanka', continent: 'Asia', code: 'lk' });
         return apiResponse._200({ message: "city added" })
 
     }
@@ -40,72 +49,127 @@ export const post = async (_event: APIGatewayProxyEvent) => {
     }
 }
 
-// const { Sequelize } = require("sequelize");
+export const getById = async (event: APIGatewayProxyEvent) => {
+    console.log('getting postgres user by id');
+    let seq: Sequelize = null;
+    let id = event.pathParameters.id;
+    try {
+        seq = await loadSequelize();
+        CityModel(seq);
+        let cities = await seq.model('City').findByPk(id, {
+            // attributes: ['name']
+            attributes: { exclude: ['id'] },
+            include: [{
+                model: CityCode,
+            }]
+        });
+        return apiResponse._200({ cities })
 
-// let sequelize = null;
+    }
+    finally {
+        console.log('closing connection')
+        await seq.connectionManager.close();
+    }
+}
 
-// async function loadSequelize() {
-//     const sequelize = new Sequelize('postgres://postgres:mysecretpassword@localhost:5432/postgres', {
-//         // (...)
-//         pool: {
-//             /*
-//              * Lambda functions process one request at a time but your code may issue multiple queries
-//              * concurrently. Be wary that `sequelize` has methods that issue 2 queries concurrently
-//              * (e.g. `Model.findAndCountAll()`). Using a value higher than 1 allows concurrent queries to
-//              * be executed in parallel rather than serialized. Careful with executing too many queries in
-//              * parallel per Lambda function execution since that can bring down your database with an
-//              * excessive number of connections.
-//              *
-//              * Ideally you want to choose a `max` number where this holds true:
-//              * max * EXPECTED_MAX_CONCURRENT_LAMBDA_INVOCATIONS < MAX_ALLOWED_DATABASE_CONNECTIONS * 0.8
-//              */
-//             max: 2,
-//             /*
-//              * Set this value to 0 so connection pool eviction logic eventually cleans up all connections
-//              * in the event of a Lambda function timeout.
-//              */
-//             min: 0,
-//             /*
-//              * Set this value to 0 so connections are eligible for cleanup immediately after they're
-//              * returned to the pool.
-//              */
-//             idle: 0,
-//             // Choose a small enough value that fails fast if a connection takes too long to be established.
-//             acquire: 3000,
-//             /*
-//              * Ensures the connection pool attempts to be cleaned up automatically on the next Lambda
-//              * function invocation, if the previous invocation timed out.
-//              */
-//         }
-//     });
+export const getByName = async (event: APIGatewayProxyEvent) => {
+    console.log('getting postgres user by id');
+    let seq: Sequelize = null;
+    try {
+        seq = await loadSequelize();
+        CityModel(seq);
+        let cities = await seq.model('City').findOne({ where: { name: 'Colombo' } })
+        return apiResponse._200({ cities })
 
-//     // or `sequelize.sync()`
-//     await sequelize.authenticate();
+    }
+    finally {
+        console.log('closing connection')
+        await seq.connectionManager.close();
+    }
+}
 
-//     return sequelize;
-// }
+export const deleteByName = async (event: APIGatewayProxyEvent) => {
+    console.log('getting postgres user by id');
+    let seq: Sequelize = null;
+    try {
+        seq = await loadSequelize();
+        CityModel(seq);
+        await seq.model('City').destroy({ where: { name: 'Colombo' } })
+        return apiResponse._200({ message: 'city deleted' })
 
-// export const main = async function (event, callback) {
-//     // re-use the sequelize instance across invocations to improve performance
-//     if (!sequelize) {
-//         console.log('getting new connection')
-//         sequelize = await loadSequelize();
-//     } else {
-//         console.log('getting from connection manager')
-//         // restart connection pool to ensure connections are not re-used across invocations
-//         sequelize.connectionManager.initPools();
+    }
+    finally {
+        console.log('closing connection')
+        await seq.connectionManager.close();
+    }
+}
 
-//         // restore `getConnection()` if it has been overwritten by `close()`
-//         if (sequelize.connectionManager.hasOwnProperty("getConnection")) {
-//             delete sequelize.connectionManager.getConnection;
-//         }
-//     }
+export const getCityCodes = async (_event: APIGatewayProxyEvent) => {
+    console.log('getting postgres users');
+    try {
+        let city = await CityClass.findAll({})
+        console.log(city)
+        let cities = await CityCode.findAll({});
+        return apiResponse._200({ cities })
 
-//     try {
-//         return apiResponse._200({ message: 'done' })
-//     } finally {
-//         // close any opened connections during the invocation
-//         // this will wait for any in-progress queries to finish before closing the connections
-//         await sequelize.connectionManager.close();
-//     }
-// };
+    }
+    finally {
+        console.log('closing connection')
+        await closeConnection();
+    }
+}
+
+export const postCityCode = async (_event: APIGatewayProxyEvent) => {
+    let seq: Sequelize = null;
+    try {
+        await CityCode.create({ name: 'KAN', CityClassId: 'a504fbb8-3720-4765-9f6c-0549c9829ba1' })
+        return apiResponse._200({ message: "city added" })
+
+    }
+    catch (err) {
+        console.error(err);
+    }
+    finally {
+        console.log('closing connection')
+        await closeConnection();
+    }
+}
+
+
+export const addUser = async (_event: APIGatewayProxyEvent) => {
+    let seq: Sequelize = null;
+    try {
+        seq = await loadSequelize();
+        let user = { firstName: 'Janitha', lastName: "Tennakoon", email: 'aaaa' }
+        let UserInstance = User(seq, DataTypes)
+        await UserInstance.create(user);
+        return apiResponse._200({ message: "user added" })
+
+    }
+    catch (err) {
+        console.error(err);
+    }
+    finally {
+        console.log('closing connection')
+        await seq.connectionManager.close();
+    }
+}
+
+export const getUsers = async (_event: APIGatewayProxyEvent) => {
+    let seq = null;
+    try {
+        seq = await loadSequelize();
+        let UserInstance = User(seq, DataTypes)
+        let users = await UserInstance.findAll({});
+        return apiResponse._200({ users })
+
+    }
+    catch (err) {
+        console.error(err);
+    }
+    finally {
+        console.log('closing connection')
+        await seq.connectionManager.close();
+    }
+}
+
