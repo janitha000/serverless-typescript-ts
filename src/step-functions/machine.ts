@@ -1,7 +1,7 @@
 
 export const machine = {
   customeStateMachine: {
-    name: "statemachinetypescript",
+    name: "statemachinetypescript-${sls:stage}",
     definition: {
       "Comment": "An example of the Amazon States Language using a choice state.",
       "StartAt": "FirstState",

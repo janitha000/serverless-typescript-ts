@@ -1,5 +1,5 @@
 import { AWS } from '@serverless/typescript';
-import schema from './hello/schema';
+// import schema from './hello/schema';
 
 //@ts-ignore
 const corsSettings = {
@@ -24,33 +24,59 @@ const vpc = {
     ]
 }
 
+//const mongoLayer = "${cf:databaselayer-${self:provider.stage}.awsSdkLayer-${self:provider.stage}}";
+const mongoLayer = { "Fn::ImportValue": "DatabaseLambdaLayer-${sls:stage}" }
+const awsSDKLayer = { "Fn::ImportValue": "AwsSdkLambdaLayer-${sls:stage}" }
+//const awsSDKLayer = "${cf:databaselayer-${self:provider.stage}.awsSdkLayer-${self:provider.stage}}";
+
+
 export const functions: AWS["functions"] = {
     hello: {
+        name: '${sls:stage}-hello',
         handler: `src/functions/hello/handler.main`,
+        environment: {
+            SSM_PARAM: "${ssm:TEST_SSM}",
+            EN_PARAM: "${ssm:Encrypt_Param}",
+            SECRET_MANAGER_PARAM: "${self:custom.secret_param.SECRET_MAN_KEY}"
+        },
         events: [
             {
                 http: {
                     method: 'get',
                     path: 'hello',
-                    request: {
-                        schemas: {
-                            'application/json': schema,
-                        },
-                    },
+                    // request: {
+                    //     schemas: {
+                    //         'application/json': schema,
+                    //     },
+                    // },
                     //@ts-ignore
-                    documentation: {
-                        summary: "Create something",
-                        description: "Creates the thing you need",
-                        methodResponses: [
-                            {
-                                statusCode: "200",
-                                responseBody: {
-                                    description: "Response body description"
-                                }
+                    responseData: {
+                        // response with description and response body
+                        200: {
+                            description: 'this went well',
+                            bodyType: 'Success',
+                        },
 
-                            }
-                        ]
+                        // response with just a description
+                        400: {
+                            description: 'failed Post',
+                        },
+                        // shorthand for just a description
+                        502: 'server error',
                     }
+                    // documentation: {
+                    //     summary: "Create something",
+                    //     description: "Creates the thing you need",
+                    //     methodResponses: [
+                    //         {
+                    //             statusCode: "200",
+                    //             responseBody: {
+                    //                 description: "Response body description"
+                    //             }
+
+                    //         }
+                    //     ]
+                    // }
                 },
             },
         ],
@@ -79,9 +105,7 @@ export const functions: AWS["functions"] = {
     },
     startStepFunction: {
         handler: `src/functions/step/startStepFunction.main`,
-        layers: [
-            "${cf:databaselayer-${self:provider.stage}.awsSdkLayer}"
-        ],
+        layers: [awsSDKLayer],
         events: [
             {
                 http: {
@@ -124,9 +148,7 @@ export const functions: AWS["functions"] = {
     },
     mongoUsers: {
         handler: `src/functions/mongo/users/handler.main`,
-        layers: [
-            "${cf:databaselayer-${self:provider.stage}.databaseLayer}",
-        ],
+        layers: [mongoLayer],
         events: [
             {
                 http: {
@@ -143,9 +165,7 @@ export const functions: AWS["functions"] = {
     },
     getUsersByFilter: {
         handler: `src/functions/mongo/getUsersFilter.main`,
-        layers: [
-            "${cf:databaselayer-${self:provider.stage}.databaseLayer}",
-        ],
+        layers: [mongoLayer],
         events: [
             {
                 http: {
@@ -157,9 +177,7 @@ export const functions: AWS["functions"] = {
     },
     getUserById: {
         handler: `src/functions/mongo/getUserById.main`,
-        layers: [
-            "${cf:databaselayer-${self:provider.stage}.databaseLayer}",
-        ],
+        layers: [mongoLayer],
         events: [
             {
                 http: {
@@ -171,9 +189,7 @@ export const functions: AWS["functions"] = {
     },
     departments: {
         handler: `src/functions/mongo/departments/handler.main`,
-        layers: [
-            "${cf:databaselayer-${self:provider.stage}.databaseLayer}",
-        ],
+        layers: [mongoLayer],
         events: [
             {
                 http: {
@@ -214,11 +230,99 @@ export const functions: AWS["functions"] = {
         events: [
             {
                 http: {
-                    method: 'ANY',
+                    method: 'GET',
                     path: 'service-users',
-                    cors: corsSettings
-                },
+                    cors: corsSettings,
 
+                    //@ts-ignore
+                    documentation: {
+                        summary: "get service users from the database",
+                        description: "Gets the service users from the database",
+                        methodResponses: [
+                            {
+                                statusCode: "200",
+                                responseBody: {
+                                    description: "Response body description"
+                                }
+
+                            }
+                        ]
+                    }
+                }
+
+            },
+            {
+                http: {
+                    method: 'POST',
+                    path: 'service-users',
+                    cors: corsSettings,
+
+                    //@ts-ignore
+                    documentation: {
+                        summary: "post service users from the database",
+                        description: "POST the service users from the database",
+                        methodResponses: [
+                            {
+                                statusCode: "200",
+                                responseBody: {
+                                    description: "Response body description"
+                                }
+
+                            }
+                        ]
+                    }
+                }
+
+            },
+        ],
+
+    },
+    usersMultiple: {
+        handler: `src/functions/service-pattern/users.main`,
+        events: [
+            {
+                http: {
+                    method: 'GET',
+                    path: 'service-users-multiple',
+                    cors: corsSettings,
+
+                    //@ts-ignore
+                    documentation: {
+                        summary: "get service users from the database",
+                        description: "Gets the service users from the database",
+                        methodResponses: [
+                            {
+                                statusCode: "200",
+                                responseBody: {
+                                    description: "Response body description"
+                                }
+
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                http: {
+                    method: 'POST',
+                    path: 'service-users-multiple',
+                    cors: corsSettings,
+
+                    //@ts-ignore
+                    documentation: {
+                        summary: "post service users from the database",
+                        description: "POST the service users from the database",
+                        methodResponses: [
+                            {
+                                statusCode: "200",
+                                responseBody: {
+                                    description: "Response body description"
+                                }
+
+                            }
+                        ]
+                    }
+                }
             },
         ],
 

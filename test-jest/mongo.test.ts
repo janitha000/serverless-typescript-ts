@@ -50,6 +50,7 @@ describe('Unit test for mongo handler', function () {
         expect(result.statusCode).toEqual(200);
         expect(JSON.parse(result.body).data.users).toEqual(expectedResult)
     });
+
     it('should return error', async () => {
         const expectedResult = { name: 'test' };
         //@ts-ignore

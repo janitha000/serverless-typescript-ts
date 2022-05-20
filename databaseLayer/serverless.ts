@@ -54,7 +54,7 @@ const serverlessConfiguration: AWS = {
           "Ref": "DatabaseLambdaLayer"
         },
         Export: {
-          "Name": "DatabaseLambdaLayer"
+          "Name": { "Fn::Join": ["-", ["DatabaseLambdaLayer", "${sls:stage}"]] }
         }
       },
       awsSdkLayer: {
@@ -62,7 +62,7 @@ const serverlessConfiguration: AWS = {
           "Ref": "AwsSdkLambdaLayer"
         },
         Export: {
-          "Name": "AwsSdkLambdaLayer"
+          "Name": { "Fn::Join": ["-", ["AwsSdkLambdaLayer", "${sls:stage}"]] }
         }
       }
     }

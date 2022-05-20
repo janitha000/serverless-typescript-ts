@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "npm run compile && serverless deploy --verbose",
+    "deploy:staging": "npm run compile && serverless deploy --stage staging --verbose",
     "deploy:debug": "SLS_DEBUG=* serverless deploy",
     "deploy:ci": "npm run install && npm run compile && serverless deploy --verbose --stage ",
     "compile": "tsc --project database/nodejs/database/tsconfig.json",

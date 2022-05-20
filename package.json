@@ -7,6 +7,7 @@
     "test": "nyc mocha",
     "test-jest": "jest --config=jest.config.js",
     "deploy": "serverless deploy --verbose",
+    "deploy:staging": "serverless deploy --stage staging --verbose",
     "deploy:local": "serverless deploy --stage local --verbose",
     "deploy:ci": "serverless deploy --verbose --stage ",
     "start": "serverless offline start",
@@ -16,7 +17,8 @@
     "debug": "node --inspect ./node_modules/.bin/serverless offline -s dev",
     "db:init": "sequelize migration:create --name",
     "db:migrate": "sequelize db:migrate",
-    "db:makemigrations": "./node_modules/sequelize-auto-migrations/bin/makemigration.js"
+    "db:makemigrations": "./node_modules/sequelize-auto-migrations/bin/makemigration.js",
+    "doc": "serverless downloadDocumentation  --outputFileName=swagger.yaml --verbose"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -59,8 +61,9 @@
     "jest": "^28.1.0",
     "json-schema-to-ts": "^1.5.0",
     "serverless": "^3.0.0",
-    "serverless-auto-swagger": "^2.4.1",
+    "serverless-auto-swagger": "^2.5.0",
     "serverless-aws-documentation": "^1.1.0",
+    "serverless-domain-manager": "^6.0.3",
     "serverless-esbuild": "^1.23.3",
     "serverless-layers": "^2.5.4",
     "serverless-localstack": "^0.4.35",

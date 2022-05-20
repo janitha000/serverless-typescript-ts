@@ -1,0 +1,94 @@
+---
+swagger: "2.0"
+info:
+  version: "2022-05-13T16:58:04Z"
+  title: "serverless-step-dev"
+host: "t4zezgch20.execute-api.ap-southeast-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /aurora/users:
+    get:
+      responses: {}
+  /countries:
+    get:
+      responses: {}
+  /departments:
+    x-amazon-apigateway-any-method:
+      responses: {}
+  /hello:
+    get:
+      summary: "Create something"
+      description: "Creates the thing you need"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "serverApiGaPj8sAxX6fE3t"
+        required: true
+        schema:
+          $ref: "#/definitions/serverApiGaPj8sAxX6fE3t"
+      responses:
+        "200":
+          description: "200 response"
+  /postcountry:
+    get:
+      responses: {}
+  /sentry:
+    get:
+      responses: {}
+  /service-users:
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+    x-amazon-apigateway-any-method:
+      responses: {}
+  /stepFunction:
+    post:
+      responses: {}
+  /stepFunction/start:
+    get:
+      responses: {}
+  /stepFunction/{id}:
+    delete:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses: {}
+  /user/filter:
+    get:
+      responses: {}
+  /users:
+    x-amazon-apigateway-any-method:
+      responses: {}
+  /users/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses: {}
+definitions:
+  serverApiGaPj8sAxX6fE3t:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"

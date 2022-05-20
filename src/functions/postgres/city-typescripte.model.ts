@@ -32,4 +32,7 @@ export class City extends Model {
 
     @BelongsToMany(() => People, () => PeopleCity)
     peoples: Array<People & { PeopleCity: PeopleCity }>
+
+
 }
+
