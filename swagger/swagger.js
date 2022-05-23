@@ -39,6 +39,30 @@
         ]
       }
     },
+    "/hello/mhello": {
+      "get": {
+        "summary": "helloM",
+        "description": "",
+        "operationId": "helloM.get.hello/mhello",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
     "/stepFunction": {
       "post": {
         "summary": "createStepFunction",
@@ -778,5 +802,6 @@
       "name": "Authorization",
       "in": "header"
     }
-  }
+  },
+  "basePath": "/dev"
 };

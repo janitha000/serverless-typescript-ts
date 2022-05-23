@@ -17,12 +17,19 @@ const corsSettings = {
 };
 
 const vpc = {
-    securityGroupIds: ["sg-0f439c946788b4547"],
+    securityGroupIds: ["sg-00733881386a066d3"],
     subnetIds: [
-        "subnet-07b69ae17e24dc252",
-        "subnet-0150728ce4d1dc5af",
+        "subnet-0e7ad0e3e621fefc1",
+        "subnet-096e8dc5c855c2408",
     ]
 }
+// const vpc = {
+//     securityGroupIds: ["sg-0f439c946788b4547"],
+//     subnetIds: [
+//         "subnet-07b69ae17e24dc252",
+//         "subnet-0150728ce4d1dc5af",
+//     ]
+// }
 
 //const mongoLayer = "${cf:databaselayer-${self:provider.stage}.awsSdkLayer-${self:provider.stage}}";
 const mongoLayer = { "Fn::ImportValue": "DatabaseLambdaLayer-${sls:stage}" }
@@ -77,6 +84,17 @@ export const functions: AWS["functions"] = {
                     //         }
                     //     ]
                     // }
+                },
+            },
+        ],
+    },
+    helloM: {
+        handler: `src/functions/hello/handler.middyfyMain`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'hello/mhello',
                 },
             },
         ],
@@ -160,7 +178,7 @@ export const functions: AWS["functions"] = {
         tracing: 'Active',
         //@ts-ignore
         lambdaInsights: true,
-        vpc: vpc
+        // //vpc: vpc
 
     },
     getUsersByFilter: {
@@ -338,7 +356,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     addCoutries: {
@@ -365,7 +383,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     countriesByName: {
@@ -379,7 +397,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     countriesByNameDelete: {
@@ -393,7 +411,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     cityCodes: {
@@ -407,7 +425,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     postCityCodes: {
@@ -421,7 +439,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     addUsers: {
@@ -435,7 +453,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     getUsers: {
@@ -449,7 +467,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     addCityT: {
@@ -463,7 +481,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     getCitiesT: {
@@ -477,7 +495,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     getCountriesT: {
@@ -491,7 +509,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     postCountryT: {
@@ -505,7 +523,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     AddCityAndPeopleT: {
@@ -519,7 +537,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
     getCityAndPeopleT: {
@@ -533,7 +551,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
 
@@ -551,7 +569,7 @@ export const functions: AWS["functions"] = {
 
             },
         ],
-        vpc: vpc
+        //vpc: vpc
 
     },
 }

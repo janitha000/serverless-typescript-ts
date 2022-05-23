@@ -4,6 +4,7 @@ import { Country } from './country-typescipt';
 import { People, PeopleCity } from './people-typescipt.model';
 
 let sequelize: Sequelize = null;
+const CURRENT_LAMBDA_FUNCTION_TIMEOUT = 60 * 60
 
 export const loadSequelizeT = async (): Promise<Sequelize> => {
     console.log('getting connection')
@@ -15,7 +16,8 @@ export const loadSequelizeT = async (): Promise<Sequelize> => {
                 max: 2,
                 min: 0,
                 idle: 0,
-                acquire: 3000
+                acquire: 3000,
+                evict: CURRENT_LAMBDA_FUNCTION_TIMEOUT
             }
         }) // Example for postgres
         // console.log('authenticating')

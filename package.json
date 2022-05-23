@@ -25,7 +25,10 @@
   },
   "dependencies": {
     "@middy/core": "^2.5.3",
+    "@middy/http-error-handler": "^3.0.3",
     "@middy/http-json-body-parser": "^2.5.3",
+    "@middy/http-security-headers": "^3.0.3",
+    "@middy/input-output-logger": "^3.0.3",
     "@sentry/serverless": "^6.19.7",
     "aws-sdk": "^2.1055.0",
     "chai": "^4.3.6",
