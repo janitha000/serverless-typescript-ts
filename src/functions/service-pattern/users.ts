@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, Context } from "aws-lambda";
-import { apiResponse } from "src/common/api-response";
-import { Logger } from "src/common/logger";
-import { SentryWrapper } from "src/common/sentry";
+import { apiResponse } from "../../common/api-response";
+import { Logger } from "../..//common/logger";
+import { SentryWrapper } from "../..//common/sentry";
 
 const users = async (event: APIGatewayProxyEvent, context: Context) => {
     const logger = new Logger(context.awsRequestId);
