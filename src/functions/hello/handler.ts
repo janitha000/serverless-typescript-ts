@@ -24,6 +24,7 @@ const hello = async (event, context: Context) => {
     message: `Hello, welcome to the exciting Serverless world! from swagger`,
     param: process.env.SSM_PARAM,
     secure_param: process.env.EN_PARAM,
+    env_param: process.env.SSM_ENV_PARAM,
     secret_manager_param: process.env.SECRET_MANAGER_PARAM,
     url: `${API_URL_BASE}/hello`,
     event,

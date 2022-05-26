@@ -21,7 +21,7 @@ export const getUsers = async (logger: Logger) => {
             callstack: err.stack,
         });
         SentryWrapper.captureException(err);
-        return apiResponse._500({ err });
+        return apiResponse._500E(err);
 
     }
 

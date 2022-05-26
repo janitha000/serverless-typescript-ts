@@ -1,4 +1,4 @@
-import { Table, Column, Model, HasMany, IsUUID, PrimaryKey, DataType, BelongsTo, ForeignKey, BelongsToMany } from 'sequelize-typescript'
+import { Table, Column, Model, HasMany, IsUUID, PrimaryKey, DataType, BelongsTo, ForeignKey, BelongsToMany, AfterFind, HookOptions } from 'sequelize-typescript'
 import { Country } from './country-typescipt'
 import { People, PeopleCity } from './people-typescipt.model'
 
@@ -33,6 +33,10 @@ export class City extends Model {
     @BelongsToMany(() => People, () => PeopleCity)
     peoples: Array<People & { PeopleCity: PeopleCity }>
 
-
+    @AfterFind
+    static makeUpperCase(instance: HookOptions) {
+        console.log(instance);
+        instance.name = instance.name.toLocaleUpperCase()
+    }
 }
 

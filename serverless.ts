@@ -30,8 +30,10 @@ const serverlessConfiguration: AWS = {
     'serverless-aws-documentation',
     'serverless-localstack',
     'serverless-plugin-lambda-insights',
-    'serverless-domain-manager'
-    // 'serverless-layers'
+    'serverless-domain-manager',
+    // 'serverless-layers',
+    'serverless-plugin-aws-alerts',
+    'serverless-plugin-canary-deployments'
   ],
   provider: {
     name: 'aws',
@@ -104,6 +106,21 @@ const serverlessConfiguration: AWS = {
       apiKeyHeaders: ['Authorization'],
       typefiles: ['./src/types/success.d.ts'],
       apiType: 'http'
+    },
+    alerts: {
+      dashboard: true,
+      definitions: {
+        functionErrors: {
+          namespace: 'AWS/Lambda',
+          metric: 'Errors',
+          threshold: 1,
+          statistics: 'Minimum',
+          period: 60,
+          evaluationPeriods: 1,
+          comparisonOperator: 'GreaterThanOrEqualToThreshold'
+
+        }
+      }
     }
   },
   // @ts-ignore

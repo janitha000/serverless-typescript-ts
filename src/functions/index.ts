@@ -43,6 +43,7 @@ export const functions: AWS["functions"] = {
         handler: `src/functions/hello/handler.main`,
         environment: {
             SSM_PARAM: "${ssm:TEST_SSM}",
+            SSM_ENV_PARAM: "${ssm:/${sls:stage}/db-user}",
             EN_PARAM: "${ssm:Encrypt_Param}",
             SECRET_MANAGER_PARAM: "${self:custom.secret_param.SECRET_MAN_KEY}"
         },
@@ -96,8 +97,15 @@ export const functions: AWS["functions"] = {
                     method: 'get',
                     path: 'hello/mhello',
                 },
+                //@ts-ignore
+                alarms: [{ 'Fn::GetAtt': ['functionErrors', 'Arn'] }]
             },
         ],
+        deploymentSettings: {
+            type: 'Linear10PercentEvery1Minute',
+            alias: 'Live',
+            // alarms: ['HelloMError']
+        }
     },
     createStepFunction: {
         handler: `src/functions/step/createStepFunction.main`,

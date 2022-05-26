@@ -18,4 +18,14 @@ export const apiResponse = {
             body: JSON.stringify(body, null, 2),
         };
     },
+    _500E: (err: Error) => {
+        let body = {
+            errorMessage: err.message,
+            error: err.name
+        }
+        return {
+            statusCode: 500,
+            body: JSON.stringify(body, null, 2),
+        };
+    },
 }

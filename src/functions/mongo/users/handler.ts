@@ -15,7 +15,9 @@ const users = async (event: APIGatewayProxyEvent, context: Context) => {
     try {
         switch (method) {
             case 'GET':
-                return getUsers(logger);
+                let res = await getUsers(logger);
+                console.log(res)
+                return res;
             case 'POST':
                 return postUsers(event, logger);
             default:

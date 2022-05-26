@@ -18,7 +18,8 @@
     "db:init": "sequelize migration:create --name",
     "db:migrate": "sequelize db:migrate",
     "db:makemigrations": "./node_modules/sequelize-auto-migrations/bin/makemigration.js",
-    "doc": "serverless downloadDocumentation  --outputFileName=swagger.yaml --verbose"
+    "doc": "serverless downloadDocumentation  --outputFileName=swagger.yaml --verbose",
+    "lint": "eslint ."
   },
   "engines": {
     "node": ">=14.15.0"
@@ -42,7 +43,8 @@
     "sequelize": "^6.19.0",
     "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^6.4.1",
-    "sequelize-typescript": "^2.1.3"
+    "sequelize-typescript": "^2.1.3",
+    "serverless-plugin-canary-deployments": "^0.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
@@ -57,10 +59,13 @@
     "@types/mocha": "^9.1.1",
     "@types/node": "^14.18.18",
     "@types/validator": "^13.7.2",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
     "babel-jest": "^28.1.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "database": "file:databaseLayer/database/nodejs/database",
     "esbuild": "^0.14.11",
+    "eslint": "^8.16.0",
     "jest": "^28.1.0",
     "json-schema-to-ts": "^1.5.0",
     "serverless": "^3.0.0",
@@ -71,6 +76,7 @@
     "serverless-layers": "^2.5.4",
     "serverless-localstack": "^0.4.35",
     "serverless-offline": "^8.5.0",
+    "serverless-plugin-aws-alerts": "git://github.com/ACloudGuru/serverless-plugin-aws-alerts.git#6a98d42ab2b1916fb0bdeb31717819575d4e6754",
     "serverless-plugin-lambda-insights": "^1.5.0",
     "serverless-step-functions": "^3.7.0",
     "ts-node": "^10.4.0",
