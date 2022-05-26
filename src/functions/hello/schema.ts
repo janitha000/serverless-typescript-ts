@@ -1,7 +1,35 @@
 export default {
-  type: "object",
+  type: 'object',
   properties: {
-    name: { type: 'string' }
-  },
-  required: ['name']
-} as const;
+    body: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', maxLength: 2 },
+        age: { type: 'number' },
+        cities: {
+          type: 'array',
+          items: {
+            type: 'number'
+          },
+          uniqueItems: true
+        }
+
+      },
+      required: ['name', 'age', 'cities'],
+    }
+  }
+}
+
+
+// export default {
+//   required: ['body'],
+//   type: 'object',
+
+//   properties: {
+//     name: { type: 'string' },
+//     age: { type: 'number' }
+
+//   }
+
+
+// }

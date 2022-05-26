@@ -107,6 +107,17 @@ export const functions: AWS["functions"] = {
             // alarms: ['HelloMError']
         }
     },
+    validatedHello: {
+        handler: `src/functions/hello/handler.mvalidatedHello`,
+        events: [
+            {
+                http: {
+                    method: 'post',
+                    path: 'hello',
+                }
+            },
+        ]
+    },
     createStepFunction: {
         handler: `src/functions/step/createStepFunction.main`,
         events: [

@@ -4,12 +4,15 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { helloLog } from './hello.service';
 import { Logger } from '../../common/logger';
 import schema from './schema';
-import { APIGatewayProxyEvent, Context } from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyEventV2, Context } from 'aws-lambda';
 import { apiResponse } from '../../common/api-response'
 import { middyfy } from '@libs/lambda';
 import httpSecurityHeaders from '@middy/http-security-headers';
 import requestLoggerMiddleware from 'src/common/request-logger-middleware';
 import MiddyWrapper from '../../common/middleware-wrapper'
+import validator from '@middy/validator'
+import validationMiddleware from 'src/common/validation-middleware';
+
 const API_URL_BASE = process.env.API_URL_BASE;
 
 // const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event, context: Context) => {
@@ -41,4 +44,13 @@ const mHello = async (_event: APIGatewayProxyEvent) => {
 };
 
 export const middyfyMain = MiddyWrapper(mHello)
+
+
+const validatedHello = async (event: APIGatewayProxyEvent, context: Context) => {
+  const body = event.body
+  return apiResponse._200({ message: 'This is from validateed endpoint', body })
+}
+
+
+export const mvalidatedHello = MiddyWrapper(validatedHello).use(validator({ inputSchema: schema })).use(validationMiddleware())
 

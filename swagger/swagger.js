@@ -37,6 +37,28 @@
             "Authorization": []
           }
         ]
+      },
+      "post": {
+        "summary": "validatedHello",
+        "description": "",
+        "operationId": "validatedHello.post.hello",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/hello/mhello": {

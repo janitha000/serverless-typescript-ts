@@ -6,7 +6,7 @@ const requestLoggerMiddleware = (): middy.MiddlewareObj<APIGatewayProxyEvent, AP
         request
     ): Promise<void> => {
         console.log('THIS IS FROM MIDDLEWARE')
-        console.log(request)
+        console.log(request.event.body)
     }
 
     const after: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async (
