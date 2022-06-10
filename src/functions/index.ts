@@ -591,5 +591,42 @@ export const functions: AWS["functions"] = {
         //vpc: vpc
 
     },
+    typeOrm: {
+        handler: `src/functions/typeorm/handler.main`,
+        events: [
+            {
+                http: {
+                    method: 'get',
+                    path: 'typeorm',
+                },
+
+            },
+        ],
+        //vpc: vpc
+
+    },
+
+    websocketconnect: {
+        handler: `src/functions/web-socket/handler.connect`,
+        events: [
+            {
+                websocket: {
+                    route: '$connect'
+                }
+            },
+            {
+                websocket: {
+                    route: '$disconnect'
+                }
+            },
+            {
+                websocket: {
+                    route: '$default'
+                }
+            },
+        ],
+        //vpc: vpc
+
+    },
 }
 

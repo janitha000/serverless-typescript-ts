@@ -33,7 +33,9 @@ const serverlessConfiguration: AWS = {
     'serverless-domain-manager',
     // 'serverless-layers',
     'serverless-plugin-aws-alerts',
-    'serverless-plugin-canary-deployments'
+    'serverless-plugin-canary-deployments',
+    'serverless-plugin-split-stacks',
+    'serverless-newrelic-lambda-layers'
   ],
   provider: {
     name: 'aws',
@@ -71,6 +73,7 @@ const serverlessConfiguration: AWS = {
       minify: false,
       sourcemap: true,
       //exclude: ['aws-sdk', "database"],
+      exclude: ['pg-native'],
       //exclude: ["database"],
       target: 'node14',
       define: { 'require.resolve': undefined },
@@ -121,7 +124,18 @@ const serverlessConfiguration: AWS = {
 
         }
       }
+    },
+    splitStacks: {
+      nestedStackCount: 2,
+      perFunction: false,
+      perType: false,
+      perGroupFunction: true
+    },
+    newRelic: {
+      accountId: '3506195',
+      apiKey: 'NRAK-7Y6552HUBV3V02JT20QW1OIASPQ'
     }
+
   },
   // @ts-ignore
   stepFunctions: {

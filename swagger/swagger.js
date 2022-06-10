@@ -795,6 +795,30 @@
           }
         ]
       }
+    },
+    "/typeorm": {
+      "get": {
+        "summary": "typeOrm",
+        "description": "",
+        "operationId": "typeOrm.get.typeorm",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
     }
   },
   "definitions": {

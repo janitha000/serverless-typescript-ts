@@ -11,9 +11,10 @@
     "outDir": "lib",
     "allowJs": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "strict": false
   },
-  "include": ["src/**/*.ts", "serverless.ts"],
+  "include": ["src/**/*.ts", "serverless.ts", "typeorm/entity/post.model.ts", "typeorm/entity/post.model.ts"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",
